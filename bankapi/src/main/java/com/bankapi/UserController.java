@@ -18,10 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path="/users", produces="application/json")
 public class UserController {
 
-
     @Autowired
     private UserRepository userRepository;
-
 
     @GetMapping(produces="application/json")
     public Iterable<User> allUsers() {
