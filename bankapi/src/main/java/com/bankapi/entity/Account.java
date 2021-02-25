@@ -6,31 +6,50 @@
  */
 package com.bankapi.entity;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.math.BigDecimal;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import lombok.AccessLevel;
+import com.bankapi.AccountsController;
+import com.bankapi.UserController;
+import com.bankapi.vo.Currency;
+import org.apache.commons.lang3.RandomStringUtils;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.RepresentationModel;
 
 @Data
 @NoArgsConstructor
 @Entity
 @Table(name="account")
-public class Account {
+public class Account extends RepresentationModel<Account> {
     @Id
     private String number;
-    private String currency;
-    private BigDecimal amount;
+    private Currency currency;
+    private BigDecimal balance;
 
-    public Account(String number, String currency, BigDecimal amount) {
-        this.number = number;
+    public Account(BigDecimal balance, Currency currency) {
+        this.number = generateAccountNumber();
         this.currency = currency;
-        this.amount = amount;
+        this.balance = balance;
+
+    }
+
+    public Account addLink() {
+        Link selfLink = linkTo(methodOn(AccountsController.class)
+                .getPayments(number)).withSelfRel();
+        add(selfLink);
+        return this;
+    }
+
+    public String generateAccountNumber() {
+        return RandomStringUtils.random(11, "0123456789");
     }
 }

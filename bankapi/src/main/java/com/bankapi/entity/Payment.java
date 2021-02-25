@@ -19,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.bankapi.vo.Currency;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -42,13 +43,13 @@ public class Payment {
     @JsonIgnore
     private Account creditorAccount;
 
-    private String currency;
+    private Currency currency;
     private BigDecimal amount;
 
-    public Payment(Account debitorAccount, Account creditorAccount, String currency, BigDecimal amount) {
+    public Payment(Account debitorAccount, Account creditorAccount, BigDecimal amount) {
         this.debitorAccount = debitorAccount;
         this.creditorAccount = creditorAccount;
-        this.currency = currency;
+        this.currency = debitorAccount.getCurrency();
         this.amount = amount;
     }
 

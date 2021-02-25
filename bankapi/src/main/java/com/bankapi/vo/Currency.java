@@ -4,16 +4,8 @@
  * decompiled, transferred etc. without the explicitly written prior consent from EVRY.
  * Any use in violation of the said will be prosecuted and compensation will be claimed.
  */
-package com.bankapi.data;
+package com.bankapi.vo;
 
-import java.util.List;
-
-import com.bankapi.entity.Account;
-import com.bankapi.entity.Payment;
-import org.springframework.data.repository.CrudRepository;
-
-public interface PaymentRepository extends CrudRepository<Payment, Long> {
-
-    List<Payment> findPaymentsByDebitorAccount_Number(String number);
-
+public enum Currency {
+    UAH, EUR, USR, RUR
 }

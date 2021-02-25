@@ -6,7 +6,6 @@
  */
 package com.bankapi.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,23 +20,20 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor(access= AccessLevel.PRIVATE, force=true)
 @Entity
-@Table(name="user_details")
-public class UserDetails {
-
+@Table(name="account_owner")
+public class AccountOwner {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    @JsonIgnore
     private Long id;
 
-    private int age;
-    private String nationality;
-
-    @OneToOne(mappedBy = "userDetails")
-    @JsonIgnore
+    @OneToOne(targetEntity = User.class)
     private User user;
 
-    public UserDetails(int age, String nationality) {
-        this.age = age;
-        this.nationality = nationality;
+    @OneToOne(targetEntity = Account.class)
+    private Account account;
+
+    public AccountOwner(User user, Account account) {
+        this.user = user;
+        this.account = account;
     }
 }
