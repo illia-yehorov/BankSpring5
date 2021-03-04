@@ -48,16 +48,6 @@ public class BankapiApplication {
     }
 
     @Bean
-    public CommonsRequestLoggingFilter requestLoggingFilter() {
-        CommonsRequestLoggingFilter loggingFilter = new CommonsRequestLoggingFilter();
-        loggingFilter.setIncludeClientInfo(true);
-        loggingFilter.setIncludeQueryString(true);
-        loggingFilter.setIncludePayload(true);
-        loggingFilter.setIncludeHeaders(false);
-        return loggingFilter;
-    }
-
-    @Bean
     public CommandLineRunner dataLoader() {
         return new CommandLineRunner() {
             @Override
