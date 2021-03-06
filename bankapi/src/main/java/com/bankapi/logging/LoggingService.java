@@ -1,23 +1,20 @@
 package com.bankapi.logging;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Marker;
-import org.slf4j.MarkerFactory;
-import org.springframework.stereotype.Service;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
+import org.slf4j.Logger;
+import org.springframework.stereotype.Service;
+
 @Service
-@Slf4j
 public class LoggingService {
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger("rest");
+
     private static final String REQUEST_ID = "request_id";
 
-//    private Marker importantMarker = MarkerFactory.getMarker("IMPORTANT");
-
-    private ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper();
 
 
     @SneakyThrows
@@ -34,8 +31,7 @@ public class LoggingService {
                 .append("\n\n")
                 .append("LOGGING REQUEST BODY-----------------------------------\n");
 
-        Marker importantMarker = MarkerFactory.getMarker("IMPORTANT");
-        log.info(importantMarker, data.toString());
+        log.info(data.toString());
     }
 
     @SneakyThrows

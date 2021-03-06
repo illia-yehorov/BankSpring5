@@ -12,6 +12,7 @@ import com.bankapi.data.UserRepository;
 import com.bankapi.entity.Account;
 import com.bankapi.entity.AccountOwner;
 import com.bankapi.entity.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequestMapping(path="/users", produces="application/hal+json")
 public class UserController {
@@ -35,7 +37,10 @@ public class UserController {
 
     @GetMapping(produces = "application/hal+json")
     public CollectionModel<User> allUsers() {
+        log.info("## fetching users...");
         ArrayList<User> users = (ArrayList<User>) userRepository.findAll();
+        log.info("## found {} users, adding links", users.size());
+
         for (final User user : users) {
             Link selfLink = linkTo(methodOn(UserController.class)
                     .byId(user.getSsn())).withSelfRel();
@@ -47,6 +52,7 @@ public class UserController {
 
 
         Link link = linkTo(UserController.class).withSelfRel();
+        log.info("## sending users");
         return CollectionModel.of(users, link);
     }
 
